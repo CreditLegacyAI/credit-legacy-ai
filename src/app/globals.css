@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --gold: #AD7B49;
+  --gold-light: #C99668;
+  --gold-dark: #8B5F38;
+  --offwhite: #F4F2F2;
+  --graydark: #3F3F3F;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.gradient-gold {
+  background: linear-gradient(135deg, #AD7B49 0%, #C99668 100%);
+}
+
+.text-gradient-gold {
+  background: linear-gradient(135deg, #AD7B49 0%, #C99668 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

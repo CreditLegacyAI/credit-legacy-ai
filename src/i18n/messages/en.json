@@ -1,0 +1,56 @@
+{
+  "Nav": {
+    "features": "Features",
+    "pricing": "Pricing",
+    "about": "About",
+    "login": "Sign In",
+    "signup": "Get Started"
+  },
+  "Hero": {
+    "badge": "Launching · April 15, 2028",
+    "title1": "Repair Your Credit",
+    "title2": "with Artificial Intelligence",
+    "subtitle": "The first bilingual SaaS platform designed for the Hispanic community. No middlemen, no false promises, just real technology.",
+    "ctaPrimary": "Join the Waitlist",
+    "ctaSecondary": "Learn More",
+    "trustBadge": "FCRA Compliant · ITIN Friendly · 100% Transparent"
+  },
+  "Waitlist": {
+    "title": "Be Among the First",
+    "subtitle": "Priority launch access and founder pricing",
+    "emailPlaceholder": "your@email.com",
+    "namePlaceholder": "Your name",
+    "submit": "Reserve My Spot",
+    "submitting": "Submitting...",
+    "successTitle": "You're in!",
+    "successMessage": "We'll let you know before anyone else when we launch.",
+    "errorMessage": "Something went wrong. Try again.",
+    "alreadyRegistered": "This email is already on the list"
+  },
+  "Features": {
+    "title": "The 4 Tools That Transform Your Credit",
+    "subtitle": "Technology that works for you, not against you",
+    "f1Title": "Smart Audit Engine",
+    "f1Desc": "The Doctor. Analyzes your full report and detects EVERYTHING disputable with clinical precision.",
+    "f2Title": "Strategy Generator",
+    "f2Desc": "The GPS. Generates your personalized step-by-step plan based on your real goal.",
+    "f3Title": "AI Credit Coach",
+    "f3Desc": "The Coach. Weekly tips, alerts and gamification to keep you on track.",
+    "f4Title": "Credit Health Guardian",
+    "f4Desc": "The Guardian. Protects you even after canceling. Your credit is never alone."
+  },
+  "Philosophy": {
+    "title": "Our Philosophy",
+    "quote": "My goal is to help as many people as possible in the shortest time possible. Money comes when I help people.",
+    "author": "William Nieves",
+    "role": "Founder & CEO",
+    "antiExtractive": "Anti-Extractive Philosophy",
+    "antiExtractiveDesc": "If you don't use all features of your plan, we'll tell you to downgrade. You save money. Never the opposite."
+  },
+  "Footer": {
+    "company": "Nieves Legacy Partners LLC",
+    "division": "Credit Legacy AI Division",
+    "rights": "All rights reserved.",
+    "tagline": "Empire isn't dreamed, it's built line by line."
+  }
+}

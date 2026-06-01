@@ -1,0 +1,56 @@
+{
+  "Nav": {
+    "features": "Funciones",
+    "pricing": "Precios",
+    "about": "Nosotros",
+    "login": "Iniciar Sesión",
+    "signup": "Comenzar"
+  },
+  "Hero": {
+    "badge": "Lanzamiento · 15 de Abril 2028",
+    "title1": "Repara tu Crédito",
+    "title2": "con Inteligencia Artificial",
+    "subtitle": "La primera plataforma SaaS bilingüe diseñada para la comunidad hispana. Sin intermediarios, sin promesas falsas, con tecnología real.",
+    "ctaPrimary": "Únete a la Lista de Espera",
+    "ctaSecondary": "Conoce Más",
+    "trustBadge": "FCRA Compliant · ITIN Friendly · 100% Transparente"
+  },
+  "Waitlist": {
+    "title": "Sé de los Primeros",
+    "subtitle": "Acceso prioritario al lanzamiento y precio especial de fundador",
+    "emailPlaceholder": "tu@email.com",
+    "namePlaceholder": "Tu nombre",
+    "submit": "Reservar mi Lugar",
+    "submitting": "Enviando...",
+    "successTitle": "¡Estás dentro!",
+    "successMessage": "Te avisaremos antes que a nadie cuando lancemos.",
+    "errorMessage": "Algo salió mal. Inténtalo de nuevo.",
+    "alreadyRegistered": "Este email ya está en la lista"
+  },
+  "Features": {
+    "title": "Las 4 Herramientas que Transforman tu Crédito",
+    "subtitle": "Tecnología que trabaja para ti, no contra ti",
+    "f1Title": "Smart Audit Engine",
+    "f1Desc": "El Doctor. Analiza tu reporte completo y detecta TODO lo disputable con precisión clínica.",
+    "f2Title": "Strategy Generator",
+    "f2Desc": "El GPS. Genera tu plan personalizado paso a paso basado en tu meta real.",
+    "f3Title": "AI Credit Coach",
+    "f3Desc": "El Entrenador. Tips semanales, alertas y gamificación para mantenerte en la ruta.",
+    "f4Title": "Credit Health Guardian",
+    "f4Desc": "El Guardián. Te protege incluso después de cancelar. Tu crédito nunca queda solo."
+  },
+  "Philosophy": {
+    "title": "Nuestra Filosofía",
+    "quote": "Mi meta es ayudar a la mayor cantidad de personas posible en el menor tiempo posible. El dinero llega cuando ayudo a la gente.",
+    "author": "William Nieves",
+    "role": "Fundador y CEO",
+    "antiExtractive": "Filosofía Anti-Extractiva",
+    "antiExtractiveDesc": "Si no usas todas las funciones de tu plan, te avisamos para que bajes de tier. Te ahorras dinero. Nunca al revés."
+  },
+  "Footer": {
+    "company": "Nieves Legacy Partners LLC",
+    "division": "Credit Legacy AI Division",
+    "rights": "Todos los derechos reservados.",
+    "tagline": "El imperio no se sueña, se construye línea por línea."
+  }
+}
