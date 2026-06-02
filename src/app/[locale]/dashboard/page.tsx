@@ -17,6 +17,36 @@ export default async function DashboardPage({
 
   const userName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'CEO';
 
+  // Load latest completed audit
+  let latestAudit = null;
+  let openDisputes = 0;
+  if (user) {
+    const { data: auditData } = await supabase
+      .from('audits')
+      .select('id, score_equifax, score_experian, score_transunion, total_disputable_items, completed_at')
+      .eq('user_id', user.id)
+      .eq('status', 'completed')
+      .order('completed_at', { ascending: false })
+      .limit(1)
+      .single();
+    latestAudit = auditData;
+
+    const { count } = await supabase
+      .from('disputable_items')
+      .select('id', { count: 'exact', head: true })
+      .eq('user_id', user.id)
+      .eq('dispute_status', 'pending');
+    openDisputes = count || 0;
+  }
+
+  // Average score across bureaus
+  const scores = latestAudit
+    ? [latestAudit.score_equifax, latestAudit.score_experian, latestAudit.score_transunion].filter(
+        (s): s is number => s !== null
+      )
+    : [];
+  const avgScore = scores.length > 0 ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) : null;
+
   return (
     <div className="p-6 md:p-10 max-w-6xl mx-auto">
       <div className="mb-8">
@@ -39,8 +69,12 @@ export default async function DashboardPage({
             </span>
             <TrendingUp className="w-4 h-4 text-gold" />
           </div>
-          <div className="text-3xl font-bold text-gradient-gold">---</div>
-          <div className="text-xs text-graydark mt-1">{t('scoreChange')}: --</div>
+          <div className="text-3xl font-bold text-gradient-gold">{avgScore || '---'}</div>
+          <div className="text-xs text-graydark mt-1">
+            {avgScore
+              ? locale === 'es' ? 'Promedio 3 bureaus' : 'Average 3 bureaus'
+              : `${t('scoreChange')}: --`}
+          </div>
         </div>
 
         <div className="bg-white rounded-2xl p-6 border border-gold/20">
@@ -50,7 +84,7 @@ export default async function DashboardPage({
             </span>
             <Target className="w-4 h-4 text-gold" />
           </div>
-          <div className="text-3xl font-bold text-black">0</div>
+          <div className="text-3xl font-bold text-black">{openDisputes}</div>
           <div className="text-xs text-graydark mt-1">{locale === 'es' ? 'En progreso' : 'In progress'}</div>
         </div>
 
@@ -121,19 +155,72 @@ export default async function DashboardPage({
       </div>
 
       {/* Empty state si no hay audits */}
-      <div className="bg-white rounded-2xl p-12 border border-gold/20 text-center">
-        <div className="w-16 h-16 rounded-full bg-gold/10 flex items-center justify-center mx-auto mb-4">
-          <Target className="w-8 h-8 text-gold" />
+      {!latestAudit && (
+        <div className="bg-white rounded-2xl p-12 border border-gold/20 text-center">
+          <div className="w-16 h-16 rounded-full bg-gold/10 flex items-center justify-center mx-auto mb-4">
+            <Target className="w-8 h-8 text-gold" />
+          </div>
+          <h3 className="text-xl font-bold mb-2">{t('noDataTitle')}</h3>
+          <p className="text-graydark mb-6">{t('noDataDesc')}</p>
+          <Link
+            href={`/${locale}/dashboard/audit`}
+            className="inline-block bg-gold hover:bg-gold-dark text-white px-6 py-3 rounded-full font-medium transition-all"
+          >
+            {t('startAudit')}
+          </Link>
         </div>
-        <h3 className="text-xl font-bold mb-2">{t('noDataTitle')}</h3>
-        <p className="text-graydark mb-6">{t('noDataDesc')}</p>
-        <Link
-          href={`/${locale}/dashboard/audit`}
-          className="inline-block bg-gold hover:bg-gold-dark text-white px-6 py-3 rounded-full font-medium transition-all"
-        >
-          {t('startAudit')}
-        </Link>
-      </div>
+      )}
+
+      {/* Latest audit shortcut */}
+      {latestAudit && (
+        <div className="bg-white rounded-2xl p-6 border border-gold/20">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="font-bold text-black">
+              {locale === 'es' ? 'Tu Último Audit' : 'Your Latest Audit'}
+            </h3>
+            <Link
+              href={`/${locale}/dashboard/audit/${latestAudit.id}`}
+              className="text-sm text-gold hover:underline inline-flex items-center gap-1"
+            >
+              {locale === 'es' ? 'Ver detalles' : 'View details'} <ArrowRight className="w-3 h-3" />
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+            <div>
+              <p className="text-xs text-graydark uppercase tracking-wider">
+                {locale === 'es' ? 'Fecha' : 'Date'}
+              </p>
+              <p className="font-medium text-black">
+                {latestAudit.completed_at
+                  ? new Date(latestAudit.completed_at).toLocaleDateString(locale, {
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric',
+                    })
+                  : '—'}
+              </p>
+            </div>
+            <div>
+              <p className="text-xs text-graydark uppercase tracking-wider">
+                {locale === 'es' ? 'Items' : 'Items'}
+              </p>
+              <p className="font-medium text-black">{latestAudit.total_disputable_items || 0}</p>
+            </div>
+            {latestAudit.score_equifax && (
+              <div>
+                <p className="text-xs text-graydark uppercase tracking-wider">Equifax</p>
+                <p className="font-medium text-black">{latestAudit.score_equifax}</p>
+              </div>
+            )}
+            {latestAudit.score_experian && (
+              <div>
+                <p className="text-xs text-graydark uppercase tracking-wider">Experian</p>
+                <p className="font-medium text-black">{latestAudit.score_experian}</p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

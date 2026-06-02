@@ -17,9 +17,37 @@ Credit Legacy AI es una **división de Nieves Legacy Partners LLC** que democrat
 
 ---
 
-## ⚡ Versión Actual: v0.3
+## ⚡ Versión Actual: v0.4
 
-### Novedades v0.3
+### Novedades v0.4 — Smart Audit Engine MVP 🚀
+
+**El producto real empieza aquí.** Implementación del primer feature core: el "Doctor" que diagnostica reportes de crédito.
+
+- ✅ **Smart Audit Engine completo** — upload PDF → parsing → análisis con Claude → reporte
+- ✅ **Upload flexible 1-3 PDFs** — soporta MyFICO 3B, single-bureau, multi-bureau
+- ✅ **Approach híbrido inteligente** — `pdf-parse` extrae texto (sin límite tamaño) → JSON estructurado → Claude analiza
+- ✅ **Detección automática de bureaus** — identifica Equifax/Experian/TransUnion por keywords
+- ✅ **Extracción de scores FICO** — pull automático de scores por bureau
+- ✅ **Análisis con Claude Sonnet 4.5** — detecta items disputables, asigna priority + legal basis FCRA
+- ✅ **Bilingual analysis** — Claude genera resumen ejecutivo en español E inglés
+- ✅ **Priorización inteligente** — Round 1 (Personal Info), Round 2 (High Impact), etc.
+- ✅ **Rate limiting 30 días** — un audit completo por mes (configurable)
+- ✅ **Cost tracking** — tokens y costo USD por audit guardados en DB
+- ✅ **Storage seguro** — PDFs en Supabase Storage con RLS por user_id
+- ✅ **3 tablas nuevas**: `audits`, `audit_files`, `disputable_items` con RLS
+- ✅ **Monitoreo "Coming Soon"** — placeholder UI para futuro servicio de auto-pull
+- ✅ **Dashboard actualizado** — muestra último audit con scores promedio y items disputables
+
+### Stack ampliado en v0.4
+
+| Capa | Tecnología | Uso |
+|------|-----------|-----|
+| PDF Parsing | `pdf-parse` 1.1.1 | Extrae texto de PDFs grandes |
+| Upload UI | `react-dropzone` 14.3 | Drag & drop multi-file |
+| AI Analysis | Claude Sonnet 4.5 | Detecta disputable items |
+| Storage | Supabase Storage | Bucket privado `credit-reports` |
+
+### Versiones anteriores
 
 - ✅ **Logo brand integrado** (monograma LN dorado) en todos los assets
   - Favicon multi-tamaño (16, 32, 192, 512, apple-touch 180)
