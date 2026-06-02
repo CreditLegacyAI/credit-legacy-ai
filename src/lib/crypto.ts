@@ -31,7 +31,7 @@ async function getEncryptionKey(): Promise<CryptoKey> {
   return crypto.subtle.importKey(
     'raw',
     keyData,
-    { name: ALGORI length: KEY_LENGTH },
+    { name: ALGORITHM, length: KEY_LENGTH },
     false,
     ['encrypt', 'decrypt']
   );
