@@ -31,7 +31,7 @@ async function getEncryptionKey(): Promise<CryptoKey> {
   return crypto.subtle.importKey(
     'raw',
     keyData,
-    { name: ALGORITHM, length: KEY_LENGTH },
+    { name: ALGORI length: KEY_LENGTH },
     false,
     ['encrypt', 'decrypt']
   );
@@ -57,7 +57,11 @@ export async function encrypt(plaintext: string): Promise<string> {
   combined.set(iv, 0);
   combined.set(new Uint8Array(ciphertext), iv.length);
 
-  return btoa(String.fromCharCode(...combined));
+  let binary = '';
+  for (let i = 0; i < combined.length; i++) {
+    binary += String.fromCharCode(combined[i]);
+  }
+  return btoa(binary);
 }
 
 /**
