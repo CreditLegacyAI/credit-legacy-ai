@@ -1,53 +1,139 @@
-import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase-server';
+import { getTranslations } from 'next-intl/server';
+import Link from 'next/link';
+import { TrendingUp, Target, FileText, MessageCircle, ArrowRight } from 'lucide-react';
 
-export default async function DashboardPage({ params: { locale } }: { params: { locale: string } }) {
+export default async function DashboardPage({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
   const supabase = createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  if (!user) {
-    redirect(`/${locale}/auth/login`);
-  }
+  const t = await getTranslations('Dashboard');
 
-  const isES = locale === 'es';
+  const userName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'CEO';
 
   return (
-    <div className="min-h-screen bg-offwhite">
-      <header className="bg-white border-b border-gold/20 py-4">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full border-2 border-gold flex items-center justify-center">
-              <span className="text-gold font-bold text-sm">LN</span>
-            </div>
-            <span className="font-bold">Credit Legacy AI</span>
-          </div>
-          <form action="/api/auth/signout" method="post">
-            <button className="text-sm text-graydark hover:text-gold">
-              {isES ? 'Cerrar Sesión' : 'Sign Out'}
-            </button>
-          </form>
-        </div>
-      </header>
+    <div className="p-6 md:p-10 max-w-6xl mx-auto">
+      <div className="mb-8">
+        <h1 className="text-3xl md:text-4xl font-bold text-black mb-2">
+          {t('welcome')}, {userName}
+        </h1>
+        <p className="text-graydark">
+          {locale === 'es'
+            ? 'Aquí está el resumen de tu progreso de crédito.'
+            : 'Here is your credit progress overview.'}
+        </p>
+      </div>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="bg-white rounded-3xl p-8 md:p-12 shadow-lg border border-gold/20">
-          <div className="text-center">
-            <div className="text-6xl mb-6">👋</div>
-            <h1 className="text-3xl md:text-4xl font-bold text-black mb-3">
-              {isES ? `Hola, ${user.email}` : `Hello, ${user.email}`}
-            </h1>
-            <p className="text-graydark text-lg mb-8">
-              {isES
-                ? 'Tu dashboard está en construcción. Próximamente: Smart Audit, Strategy Generator y más.'
-                : 'Your dashboard is under construction. Coming soon: Smart Audit, Strategy Generator and more.'}
-            </p>
-            <div className="inline-flex items-center gap-2 bg-gold/10 text-gold px-5 py-2 rounded-full text-sm">
-              <span className="w-2 h-2 rounded-full bg-gold animate-pulse" />
-              {isES ? 'En desarrollo activo' : 'Active development'}
-            </div>
+      {/* Stats grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div className="bg-white rounded-2xl p-6 border border-gold/20">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-xs text-graydark uppercase tracking-wider">
+              {t('creditScore')}
+            </span>
+            <TrendingUp className="w-4 h-4 text-gold" />
           </div>
+          <div className="text-3xl font-bold text-gradient-gold">---</div>
+          <div className="text-xs text-graydark mt-1">{t('scoreChange')}: --</div>
         </div>
-      </main>
+
+        <div className="bg-white rounded-2xl p-6 border border-gold/20">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-xs text-graydark uppercase tracking-wider">
+              {t('openDisputes')}
+            </span>
+            <Target className="w-4 h-4 text-gold" />
+          </div>
+          <div className="text-3xl font-bold text-black">0</div>
+          <div className="text-xs text-graydark mt-1">{locale === 'es' ? 'En progreso' : 'In progress'}</div>
+        </div>
+
+        <div className="bg-white rounded-2xl p-6 border border-gold/20">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-xs text-graydark uppercase tracking-wider">
+              {t('completedDisputes')}
+            </span>
+            <Target className="w-4 h-4 text-green-600" />
+          </div>
+          <div className="text-3xl font-bold text-black">0</div>
+          <div className="text-xs text-graydark mt-1">{locale === 'es' ? 'Resueltas' : 'Resolved'}</div>
+        </div>
+
+        <div className="bg-white rounded-2xl p-6 border border-gold/20">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-xs text-graydark uppercase tracking-wider">
+              {t('lettersGenerated')}
+            </span>
+            <FileText className="w-4 h-4 text-gold" />
+          </div>
+          <div className="text-3xl font-bold text-black">0</div>
+          <div className="text-xs text-graydark mt-1">{locale === 'es' ? 'Cartas' : 'Letters'}</div>
+        </div>
+      </div>
+
+      {/* CTA cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+        <Link
+          href={`/${locale}/dashboard/audit`}
+          className="group bg-gradient-to-br from-gold to-gold-dark text-white rounded-2xl p-8 transition-all hover:shadow-xl hover:scale-[1.02]"
+        >
+          <div className="flex items-start justify-between mb-4">
+            <div>
+              <div className="text-xs uppercase tracking-wider opacity-80 mb-2">
+                {t('nextStep')}
+              </div>
+              <h3 className="text-2xl font-bold">{t('startAudit')}</h3>
+            </div>
+            <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+          </div>
+          <p className="text-sm opacity-90">
+            {locale === 'es'
+              ? 'Comienza analizando tu reporte de crédito completo.'
+              : 'Start by analyzing your complete credit report.'}
+          </p>
+        </Link>
+
+        <Link
+          href={`/${locale}/dashboard/coach`}
+          className="group bg-white border border-gold/20 rounded-2xl p-8 transition-all hover:border-gold hover:shadow-xl"
+        >
+          <div className="flex items-start justify-between mb-4">
+            <div>
+              <div className="text-xs uppercase tracking-wider text-gold mb-2">AI Coach</div>
+              <h3 className="text-2xl font-bold text-black">
+                {locale === 'es' ? 'Habla con el Entrenador' : 'Talk to the Coach'}
+              </h3>
+            </div>
+            <MessageCircle className="w-6 h-6 text-gold group-hover:scale-110 transition-transform" />
+          </div>
+          <p className="text-sm text-graydark">
+            {locale === 'es'
+              ? 'Pregunta cualquier duda sobre tu crédito 24/7.'
+              : 'Ask any credit question 24/7.'}
+          </p>
+        </Link>
+      </div>
+
+      {/* Empty state si no hay audits */}
+      <div className="bg-white rounded-2xl p-12 border border-gold/20 text-center">
+        <div className="w-16 h-16 rounded-full bg-gold/10 flex items-center justify-center mx-auto mb-4">
+          <Target className="w-8 h-8 text-gold" />
+        </div>
+        <h3 className="text-xl font-bold mb-2">{t('noDataTitle')}</h3>
+        <p className="text-graydark mb-6">{t('noDataDesc')}</p>
+        <Link
+          href={`/${locale}/dashboard/audit`}
+          className="inline-block bg-gold hover:bg-gold-dark text-white px-6 py-3 rounded-full font-medium transition-all"
+        >
+          {t('startAudit')}
+        </Link>
+      </div>
     </div>
   );
 }

@@ -2,10 +2,12 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { useLocale } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { createClient } from '@/lib/supabase-client';
+import { Mail, Lock, User, PartyPopper } from 'lucide-react';
 
 export default function SignupPage() {
+  const t = useTranslations('Auth');
   const locale = useLocale();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -13,8 +15,6 @@ export default function SignupPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
-
-  const isES = locale === 'es';
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,7 +25,10 @@ export default function SignupPage() {
     const { error: authError } = await supabase.auth.signUp({
       email,
       password,
-      options: { data: { full_name: name, locale } },
+      options: {
+        data: { full_name: name, locale },
+        emailRedirectTo: `${window.location.origin}/${locale}/auth/verify`,
+      },
     });
 
     if (authError) {
@@ -38,7 +41,7 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-offwhite px-4">
+    <div className="min-h-screen flex items-center justify-center bg-offwhite px-4 py-12">
       <div className="w-full max-w-md">
         <Link href={`/${locale}`} className="flex items-center justify-center gap-3 mb-8">
           <div className="w-12 h-12 rounded-full border-2 border-gold flex items-center justify-center bg-white">
@@ -50,51 +53,52 @@ export default function SignupPage() {
         <div className="bg-white rounded-3xl p-8 shadow-xl border border-gold/20">
           {success ? (
             <div className="text-center py-8">
-              <div className="text-6xl mb-4">📧</div>
-              <h2 className="text-2xl font-bold mb-3">
-                {isES ? 'Revisa tu correo' : 'Check your email'}
-              </h2>
-              <p className="text-graydark text-sm">
-                {isES
-                  ? 'Te enviamos un link de confirmación. Haz clic para activar tu cuenta.'
-                  : 'We sent you a confirmation link. Click it to activate your account.'}
-              </p>
+              <PartyPopper className="w-16 h-16 text-gold mx-auto mb-4" />
+              <h2 className="text-2xl font-bold mb-3">{t('verifyTitle')}</h2>
+              <p className="text-graydark text-sm">{t('verifyMessage')}</p>
             </div>
           ) : (
             <>
-              <h1 className="text-2xl font-bold text-center mb-2">
-                {isES ? 'Crea tu cuenta' : 'Create your account'}
-              </h1>
-              <p className="text-center text-graydark text-sm mb-8">
-                {isES ? 'Comienza tu transformación de crédito' : 'Start your credit transformation'}
-              </p>
+              <h1 className="text-2xl font-bold text-center mb-2">{t('signupTitle')}</h1>
+              <p className="text-center text-graydark text-sm mb-8">{t('signupSubtitle')}</p>
 
               <form onSubmit={handleSignup} className="space-y-4">
-                <input
-                  type="text"
-                  placeholder={isES ? 'Nombre completo' : 'Full name'}
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                  className="w-full px-5 py-3 rounded-full border-2 border-gold/20 focus:border-gold focus:outline-none"
-                />
-                <input
-                  type="email"
-                  placeholder={isES ? 'Correo electrónico' : 'Email'}
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  className="w-full px-5 py-3 rounded-full border-2 border-gold/20 focus:border-gold focus:outline-none"
-                />
-                <input
-                  type="password"
-                  placeholder={isES ? 'Contraseña (mín. 8 caracteres)' : 'Password (min. 8 characters)'}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  minLength={8}
-                  required
-                  className="w-full px-5 py-3 rounded-full border-2 border-gold/20 focus:border-gold focus:outline-none"
-                />
+                <div className="relative">
+                  <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gold/50" />
+                  <input
+                    type="text"
+                    placeholder={t('fullName')}
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                    className="w-full pl-11 pr-5 py-3 rounded-full border-2 border-gold/20 focus:border-gold focus:outline-none"
+                  />
+                </div>
+
+                <div className="relative">
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gold/50" />
+                  <input
+                    type="email"
+                    placeholder={t('email')}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className="w-full pl-11 pr-5 py-3 rounded-full border-2 border-gold/20 focus:border-gold focus:outline-none"
+                  />
+                </div>
+
+                <div className="relative">
+                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gold/50" />
+                  <input
+                    type="password"
+                    placeholder={t('passwordHint')}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    minLength={8}
+                    required
+                    className="w-full pl-11 pr-5 py-3 rounded-full border-2 border-gold/20 focus:border-gold focus:outline-none"
+                  />
+                </div>
 
                 {error && <p className="text-red-600 text-sm text-center">{error}</p>}
 
@@ -103,16 +107,29 @@ export default function SignupPage() {
                   disabled={loading}
                   className="w-full bg-gold hover:bg-gold-dark disabled:opacity-50 text-white py-3 rounded-full font-medium transition-all"
                 >
-                  {loading
-                    ? (isES ? 'Creando...' : 'Creating...')
-                    : (isES ? 'Crear Cuenta' : 'Create Account')}
+                  {loading ? t('creating') : t('signUp')}
                 </button>
+
+                <p className="text-xs text-center text-graydark">
+                  {t('termsAgree')}{' '}
+                  <Link href={`/${locale}/legal/terms`} className="text-gold hover:underline">
+                    {t('termsLink')}
+                  </Link>{' '}
+                  {t('and')}{' '}
+                  <Link href={`/${locale}/legal/privacy`} className="text-gold hover:underline">
+                    {t('privacyLink')}
+                  </Link>
+                  .
+                </p>
               </form>
 
               <p className="text-center text-sm text-graydark mt-6">
-                {isES ? '¿Ya tienes cuenta?' : 'Already have an account?'}{' '}
-                <Link href={`/${locale}/auth/login`} className="text-gold font-medium hover:underline">
-                  {isES ? 'Inicia sesión' : 'Sign in'}
+                {t('alreadyHaveAccount')}{' '}
+                <Link
+                  href={`/${locale}/auth/login`}
+                  className="text-gold font-medium hover:underline"
+                >
+                  {t('signIn')}
                 </Link>
               </p>
             </>

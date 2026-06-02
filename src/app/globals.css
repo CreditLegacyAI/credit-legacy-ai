@@ -30,3 +30,31 @@ body {
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Scrollbar dorado */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #F4F2F2;
+}
+::-webkit-scrollbar-thumb {
+  background: #AD7B49;
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #8B5F38;
+}
+
+/* Selection dorado */
+::selection {
+  background: rgba(173, 123, 73, 0.3);
+  color: #000;
+}

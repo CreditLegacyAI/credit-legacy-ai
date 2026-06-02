@@ -2,13 +2,16 @@
 
 import { useState } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
+import { PartyPopper } from 'lucide-react';
 
 export default function Waitlist() {
   const t = useTranslations('Waitlist');
   const locale = useLocale();
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
-  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error' | 'duplicate'>('idle');
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error' | 'duplicate'>(
+    'idle'
+  );
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,8 +50,8 @@ export default function Waitlist() {
           </div>
 
           {status === 'success' ? (
-            <div className="text-center py-8">
-              <div className="text-6xl mb-4">🎉</div>
+            <div className="text-center py-8 animate-fade-in">
+              <PartyPopper className="w-16 h-16 text-gold mx-auto mb-4" />
               <h3 className="text-2xl font-bold text-gold mb-2">{t('successTitle')}</h3>
               <p className="text-graydark">{t('successMessage')}</p>
             </div>

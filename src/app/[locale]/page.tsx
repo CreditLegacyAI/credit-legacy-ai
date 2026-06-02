@@ -1,9 +1,11 @@
-import Navbar from '@/components/Navbar';
-import Hero from '@/components/Hero';
-import Features from '@/components/Features';
-import Philosophy from '@/components/Philosophy';
-import Waitlist from '@/components/Waitlist';
-import Footer from '@/components/Footer';
+import Navbar from '@/components/landing/Navbar';
+import Hero from '@/components/landing/Hero';
+import Features from '@/components/landing/Features';
+import Pricing from '@/components/landing/Pricing';
+import Philosophy from '@/components/landing/Philosophy';
+import FAQ from '@/components/landing/FAQ';
+import Waitlist from '@/components/landing/Waitlist';
+import Footer from '@/components/landing/Footer';
 
 export default function HomePage() {
   return (
@@ -12,7 +14,9 @@ export default function HomePage() {
       <main>
         <Hero />
         <Features />
+        <Pricing />
         <Philosophy />
+        <FAQ />
         <Waitlist />
       </main>
       <Footer />
