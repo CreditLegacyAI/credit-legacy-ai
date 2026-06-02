@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useTranslations, useLocale } from 'next-intl';
 import { createClient } from '@/lib/supabase-client';
 import { Mail, Lock, Sparkles } from 'lucide-react';
@@ -57,9 +58,14 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-offwhite px-4 py-12">
       <div className="w-full max-w-md">
         <Link href={`/${locale}`} className="flex items-center justify-center gap-3 mb-8">
-          <div className="w-12 h-12 rounded-full border-2 border-gold flex items-center justify-center bg-white">
-            <span className="text-gold font-bold">LN</span>
-          </div>
+          <Image
+            src="/logo.png"
+            alt="Credit Legacy AI"
+            width={48}
+            height={48}
+            priority
+            className="w-12 h-12 object-contain"
+          />
           <span className="font-bold text-xl">Credit Legacy AI</span>
         </Link>
 
@@ -119,10 +125,19 @@ export default function LoginPage() {
                       : t('magicLink')}
                 </button>
 
+                {mode === 'password' && (
+                  <Link
+                    href={`/${locale}/auth/forgot-password`}
+                    className="block text-center text-sm text-graydark hover:text-gold transition-colors"
+                  >
+                    {t('forgotPassword')}
+                  </Link>
+                )}
+
                 <button
                   type="button"
                   onClick={() => setMode(mode === 'password' ? 'magicLink' : 'password')}
-                  className="w-full text-sm text-gold hover:text-gold-dark flex items-center justify-center gap-2"
+                  className="w-full text-sm text-gold hover:text-gold-dark flex items-center justify-center gap-2 pt-2"
                 >
                   <Sparkles className="w-4 h-4" />
                   {mode === 'password' ? t('useMagicLink') : t('usePassword')}

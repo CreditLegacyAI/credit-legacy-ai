@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { useTranslations, useLocale } from 'next-intl';
 import { useState } from 'react';
@@ -19,10 +20,10 @@ export default function Navbar() {
   };
 
   const navLinks = [
-    { href: '#features', label: t('features') },
-    { href: '#pricing', label: t('pricing') },
-    { href: '#philosophy', label: t('about') },
-    { href: '#faq', label: t('faq') },
+    { href: `/${locale}/how-it-works`, label: t('howItWorks') },
+    { href: `/${locale}/about`, label: t('about') },
+    { href: `/${locale}#pricing`, label: t('pricing') },
+    { href: `/${locale}/contact`, label: t('contact') },
   ];
 
   return (
@@ -31,10 +32,15 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href={`/${locale}`} className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full border-2 border-gold flex items-center justify-center bg-white">
-              <span className="text-gold font-bold text-sm">LN</span>
-            </div>
-            <div className="flex flex-col leading-tight">
+            <Image
+              src="/logo.png"
+              alt="Credit Legacy AI"
+              width={40}
+              height={40}
+              priority
+              className="w-10 h-10 object-contain"
+            />
+            <div className="hidden sm:flex flex-col leading-tight">
               <span className="font-bold text-black text-sm">Credit Legacy AI</span>
               <span className="text-gold text-[10px] uppercase tracking-wider">
                 Nieves Legacy Partners
@@ -45,13 +51,13 @@ export default function Navbar() {
           {/* Desktop menu */}
           <div className="hidden md:flex items-center gap-6">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.href}
                 href={link.href}
                 className="text-graydark hover:text-gold transition-colors text-sm"
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
 
             {/* Language switcher */}
@@ -102,14 +108,14 @@ export default function Navbar() {
         {mobileOpen && (
           <div className="md:hidden border-t border-gold/20 py-4 space-y-3">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
-                className="block text-graydark hover:text-gold transition-colors text-sm"
+                className="block text-graydark hover:text-gold transition-colors text-sm py-2"
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
             <div className="flex items-center gap-2 pt-3 border-t border-gold/10">
               <button

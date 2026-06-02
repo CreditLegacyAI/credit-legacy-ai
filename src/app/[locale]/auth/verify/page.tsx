@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useTranslations, useLocale } from 'next-intl';
 import { CheckCircle2 } from 'lucide-react';
 
@@ -12,9 +13,14 @@ export default function VerifyPage() {
     <div className="min-h-screen flex items-center justify-center bg-offwhite px-4 py-12">
       <div className="w-full max-w-md">
         <Link href={`/${locale}`} className="flex items-center justify-center gap-3 mb-8">
-          <div className="w-12 h-12 rounded-full border-2 border-gold flex items-center justify-center bg-white">
-            <span className="text-gold font-bold">LN</span>
-          </div>
+          <Image
+            src="/logo.png"
+            alt="Credit Legacy AI"
+            width={48}
+            height={48}
+            priority
+            className="w-12 h-12 object-contain"
+          />
           <span className="font-bold text-xl">Credit Legacy AI</span>
         </Link>
 
@@ -25,14 +31,14 @@ export default function VerifyPage() {
           </h1>
           <p className="text-graydark mb-6">
             {locale === 'es'
-              ? 'Tu correo ha sido confirmado. Ya puedes acceder al dashboard.'
-              : 'Your email has been confirmed. You can now access the dashboard.'}
+              ? 'Tu correo ha sido confirmado. Vamos a configurar tu cuenta.'
+              : 'Your email has been confirmed. Let\'s set up your account.'}
           </p>
           <Link
-            href={`/${locale}/dashboard`}
+            href={`/${locale}/onboarding`}
             className="inline-block bg-gold hover:bg-gold-dark text-white px-8 py-3 rounded-full font-medium transition-all"
           >
-            {locale === 'es' ? 'Ir al Dashboard' : 'Go to Dashboard'}
+            {locale === 'es' ? 'Configurar mi Cuenta' : 'Set Up My Account'}
           </Link>
         </div>
       </div>

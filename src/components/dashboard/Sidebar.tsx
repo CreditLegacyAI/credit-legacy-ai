@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useTranslations, useLocale } from 'next-intl';
 import {
@@ -33,9 +34,14 @@ export default function Sidebar() {
         href={`/${locale}/dashboard`}
         className="flex items-center gap-3 p-6 border-b border-gold/20"
       >
-        <div className="w-10 h-10 rounded-full border-2 border-gold flex items-center justify-center">
-          <span className="text-gold font-bold text-sm">LN</span>
-        </div>
+        <Image
+          src="/logo.png"
+          alt="Credit Legacy AI"
+          width={40}
+          height={40}
+          priority
+          className="w-10 h-10 object-contain"
+        />
         <div>
           <p className="font-bold text-sm">Credit Legacy AI</p>
           <p className="text-[10px] text-graydark uppercase tracking-wider">Dashboard</p>

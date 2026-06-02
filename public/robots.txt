@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+
+# Block API routes from indexing
+Disallow: /api/
+
+# Block private dashboard from indexing
+Disallow: /es/dashboard
+Disallow: /en/dashboard
+Disallow: /es/onboarding
+Disallow: /en/onboarding
+
+# Block auth pages from indexing
+Disallow: /es/auth/
+Disallow: /en/auth/
+
+Sitemap: https://creditlegacy.ai/sitemap.xml
